@@ -1,4 +1,4 @@
-Copyright 2021 contributors
+MIT License Copyright (c) LigoLANG SASU
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
