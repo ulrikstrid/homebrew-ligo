@@ -18,5 +18,3 @@ ligo --help
 ## License
 
 [MIT](./LICENSE.md)
-brew install ligo
-```
