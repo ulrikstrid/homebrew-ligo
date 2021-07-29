@@ -2,15 +2,15 @@ class Ligo < Formula
   desc "Friendly Smart Contract Language for Tezos"
   homepage "https://ligolang.org/"
 
-  url "https://gitlab.com/ligolang/ligo/-/archive/0.19.0/ligo-0.19.0.tar.gz"
+  url "https://gitlab.com/ligolang/ligo/-/archive/0.21.0/ligo-0.21.0.tar.gz"
   # Version is autoscanned from url, we don't specify it explicitly because `brew audit` will complain
   # To calculate sha256: 'curl -L --fail <url> | sha256sum'
-  sha256 "eeaf549217d3706bc3bc9f9069384ac77e262ed989303da1cdfc66c9dc9ce390"
+  sha256 "8a2fcf806d561ef352043fbbef1642d09ee56b452ed314dd6c66a96ffe3e158f"
 
   bottle do
     root_url "https://github.com/ligolang/homebrew-ligo/releases/download/v#{Ligo.version}"
-    sha256 cellar: :any, catalina: "2c90c986f0b5fe56cad8813e0c5d9b1416ba50e5f2fcf771e33234430caceaa0"
-    sha256 cellar: :any, mojave:   "b203f1ae8b37462d60936ba720cdb20109c780d1f4667aed5f32bd15fc32fea2"
+    # sha256 cellar: :any, catalina: "2c90c986f0b5fe56cad8813e0c5d9b1416ba50e5f2fcf771e33234430caceaa0"
+    # sha256 cellar: :any, mojave:   "b203f1ae8b37462d60936ba720cdb20109c780d1f4667aed5f32bd15fc32fea2"
   end
 
   build_dependencies = %w[opam rust hidapi pkg-config]
