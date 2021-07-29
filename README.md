@@ -7,7 +7,7 @@ A [Homebrew](https://brew.sh/) Tap For [Ligo](https://ligolang.org/).
 To install this formula, run:
 
 ```
-brew tap ligolang/ligo
+brew install ligolang/ligo/ligo
 ```
 ## Usage
 
