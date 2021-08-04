@@ -9,8 +9,8 @@ class Ligo < Formula
 
   bottle do
     root_url "https://github.com/ligolang/homebrew-ligo/releases/download/v#{Ligo.version}"
-    sha256 cellar: :any, catalina: "34d4f41fa4aa8d9805996416f5af6a624e5355d601364e880153a33a57d568f1"
-    sha256 cellar: :any, mojave:   "5821957c7b5b25aa702e8fba1ef483e4483bb55aa3ec22a0f0c2f194934ad321"
+    # sha256 cellar: :any, catalina: "34d4f41fa4aa8d9805996416f5af6a624e5355d601364e880153a33a57d568f1"
+    # sha256 cellar: :any, mojave:   "5821957c7b5b25aa702e8fba1ef483e4483bb55aa3ec22a0f0c2f194934ad321"
   end
 
   build_dependencies = %w[opam rust hidapi pkg-config]
@@ -23,18 +23,29 @@ class Ligo < Formula
     depends_on dependency
   end
 
+  # sets up env vars for opam before running a command
+  private def with_opam_env(cmd)
+    "eval \"$(opam config env)\" && #{cmd}"
+  end
+
   def install
-    system "opam",
-     "init",
-     "--bare",
-     "--auto-setup",
-     "--disable-sandboxing"
-
+    # ligo version is taken from the environment variable in build-time
     ENV["LIGO_VERSION"] = Ligo.version
-    system "scripts/setup_switch.sh"
-    # we want to be sure that all steps run in the same shell with evaled opam config
-    system ["eval $(opam config env)", "scripts/install_vendors_deps.sh", "scripts/build_ligo_local.sh"].join(" && ")
+    # avoid opam prompts
+    ENV["OPAMYES"] = "true"
 
+    # init opam state in ~/.opam
+    system "opam", "init", "--bare", "--auto-setup", "--disable-sandboxing"
+    # create opam switch with required ocaml version
+    system "opam", "switch", "create", ".", "ocaml-base-compiler.4.09.1", "--no-install"
+    # build and test external dependencies
+    system with_opam_env "opam install --deps-only --with-test --locked ./ligo.opam $(find vendors -name \\*.opam)"
+    # build vendored dependencies
+    system with_opam_env "opam install $(find vendors -name \\*.opam)"
+    # build ligo
+    system with_opam_env "dune build -p ligo"
+
+    # install ligo binary
     cp "_build/install/default/bin/ligo", "ligo"
     bin.mkpath
     bin.install "ligo"
