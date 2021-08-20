@@ -9,8 +9,8 @@ class Ligo < Formula
 
   bottle do
     root_url "https://github.com/ligolang/homebrew-ligo/releases/download/v#{Ligo.version}"
-    # sha256 cellar: :any, catalina: ""
-    # sha256 cellar: :any, mojave:   ""
+    sha256 cellar: :any, catalina: "16f606765e31ad7254c1ec85cb44fe79599b83f101602f79644c47360a95a8ff"
+    sha256 cellar: :any, mojave:   "da7b865b2738e4dbf232dbcac18ebd5d6f39284b9e62fa81e0e2aa08cbb33de9"
   end
 
   build_dependencies = %w[opam rust hidapi pkg-config]
