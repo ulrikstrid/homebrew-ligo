@@ -15,6 +15,10 @@ brew install ligolang/ligo/ligo
 ligo --help
 ```
 
+## For maintainers
+
+How to make new releases: [docs/release-creation.md](./docs/release-creation.md)
+
 ## License
 
 [MIT](./LICENSE.md)
