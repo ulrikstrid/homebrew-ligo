@@ -1,42 +1,20 @@
-# Builds and runs checks on the brew formula.
-# Based on: https://github.com/Homebrew/brew/blob/3.2.2/Library/Homebrew/dev-cmd/tap-new.rb#L63
-
-# To run the checks locally:
-# $ brew tap ligolang/homebrew-ligo
-# $ cd "$(brew --repo ligolang/ligo)"
-# $ git fetch
-# $ git checkout <branch>
-# $ git reset --hard @{upstream}
-# Then you can run `brew test-bot` commands by adding '--tap ligolang/ligo' flag
-
-name: test brew formula
+name: Build homebrew bottle
 on:
   push:
     branches: [master]
   pull_request:
 jobs:
-  brew-test:
+  build-bottle:
     runs-on: macos-10.15
     steps:
-      # Installs/updates homebrew itself, and taps for this repo, `homebrew-core` and `homebrew-test-bot`
-      - name: Set up homebrew taps
-        id: set-up-homebrew
-        uses: homebrew/actions/setup-homebrew@master
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      - run: brew test-bot --only-cleanup-before
+      - name: Build and test
+        run: ./scripts/build-bottle.sh
 
-      - run: brew test-bot --only-setup
-
-      # Checks formula syntax
-      - run: brew test-bot --only-tap-syntax
-
-      # Builds and tests formulas, formulas are autodetected from the PR
-      - run: brew test-bot --only-formulae --verbose
-        if: github.event_name == 'pull_request'
-
-      - name: Upload bottles to Github Actions
+      - name: Upload bottle to Github Actions
         uses: actions/upload-artifact@v2
         with:
           name: homebrew-bottles
           path: '*.bottle.*'
-
