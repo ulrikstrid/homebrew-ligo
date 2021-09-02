@@ -37,7 +37,7 @@ class Ligo < Formula
     # init opam state in ~/.opam
     system "opam", "init", "--bare", "--auto-setup", "--disable-sandboxing"
     # create opam switch with required ocaml version
-    system "opam", "switch", "create", ".", "ocaml-base-compiler.4.09.1", "--no-install"
+    system "opam", "switch", "create", ".", "ocaml-base-compiler.4.10.2", "--no-install"
     # build and test external dependencies
     system with_opam_env "opam install --deps-only --with-test --locked ./ligo.opam $(find vendors -name \\*.opam)"
     # build vendored dependencies
